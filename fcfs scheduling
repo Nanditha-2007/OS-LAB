@@ -1,0 +1,55 @@
+
+#include<stdio.h>
+#include<conio.h>
+
+int main(){
+
+int n,i,j;
+int at[10],bt[10],ct[10],tat[10],wt[10],temp;
+float s1=0.0,s2=0.0;
+
+printf(" enter the number of processes:  ");
+scanf("%d",&n);
+printf(" enter the arrival time:\n");
+for(i=0;i<n;i++){
+    scanf("%d",&at[i]);
+}
+printf(" enter the burst time:\n");
+for(i=0;i<n;i++){
+    scanf("%d",&bt[i]);
+}
+for(i=0;i<n;i++){
+    for(j=i+1;j<n;j++){
+        if(at[i]>at[j]){
+            temp=at[i];
+            at[i]=at[j];
+            at[j]=temp;
+
+            temp=bt[i];
+            bt[i]=bt[j];
+            bt[j]=temp;
+        }
+    }
+}
+ct[0]=at[0]+bt[0];
+for(i=1;i<n;i++){
+    if(ct[i-1]<at[i]){
+        ct[i]=at[i]+bt[i];
+    }
+    else{
+        ct[i]=ct[i-1]+bt[i];
+    }
+}
+for(i=0;i<n;i++){
+    tat[i]=ct[i]-at[i];
+    s1=s1+tat[i];
+    wt[i]=tat[i]-bt[i];
+    s2=s2+wt[i];
+}
+for(i=0;i<n;i++){
+    printf("\nP%d: at->%d  bt->%d   ct->%d  tat->%d  wt->%d",i+1,at[i],bt[i],ct[i],tat[i],wt[i]);
+}
+printf("\n the average turn around time is:%f",s1/n);
+printf("\n the average waiting time is:%f",s2/n);
+return 0;
+}
