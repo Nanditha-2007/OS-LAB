@@ -1,0 +1,67 @@
+#include<stdio.h>
+
+int main()
+{
+    int n,i,time=0,smallest,count=0;
+    int at[10],bt[10],rt[10],ct[10],tat[10],wt[10];
+    float s1=0.0,s2=0.0;
+    printf("Enter number of processes: ");
+    scanf("%d",&n);
+
+    printf("Enter Arrival Time:\n");
+    for(i=0;i<n;i++)
+    scanf("%d",&at[i]);
+
+    printf("Enter Burst Time:\n");
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&bt[i]);
+        rt[i]=bt[i];
+    }
+
+    while(count<n)
+    {
+        smallest=-1;
+
+        for(i=0;i<n;i++)
+        {
+            if(at[i]<=time && rt[i]>0)
+            {
+                if(smallest==-1 || rt[i]<rt[smallest])
+                smallest=i;
+            }
+        }
+
+        if(smallest==-1)
+        {
+            time++;
+        }
+        else
+        {
+            rt[smallest]--;
+            time++;
+
+            if(rt[smallest]==0)
+            {
+                count++;
+                ct[smallest]=time;
+            }
+        }
+    }
+
+    for(i=0;i<n;i++)
+    {
+        tat[i]=ct[i]-at[i];
+        s1=s1+tat[i];
+        wt[i]=tat[i]-bt[i];
+        s2=s2+wt[i];
+    }
+
+    for(i=0;i<n;i++){
+    printf("\nP%d: at->%d  bt->%d   ct->%d  tat->%d  wt->%d",i+1,at[i],bt[i],ct[i],tat[i],wt[i]);
+}
+printf("\n the average turn around time is:%f",s1/n);
+printf("\n the average waiting time is:%f",s2/n);
+return 0;
+
+}
