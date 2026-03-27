@@ -1,0 +1,57 @@
+
+#include <stdio.h>
+
+void fcfs(int bt[], int n) {
+    int wt[n], tat[n];
+    int total_wt = 0, total_tat = 0;
+
+    wt[0] = 0;
+
+    for (int i = 1; i < n; i++) {
+        wt[i] = wt[i-1] + bt[i-1];
+    }
+
+    for (int i = 0; i < n; i++) {
+        tat[i] = wt[i] + bt[i];
+        total_wt += wt[i];
+        total_tat += tat[i];
+    }
+
+    printf("\nBT\tWT\tTAT\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d\t%d\t%d\n", bt[i], wt[i], tat[i]);
+    }
+
+    printf("Avg WT = %.2f\n", (float)total_wt/n);
+    printf("Avg TAT = %.2f\n", (float)total_tat/n);
+}
+
+int main() {
+    int n_sys, n_user;
+
+    printf("Enter system process count: ");
+    scanf("%d", &n_sys);
+
+    int sys[n_sys];
+    printf("Enter burst times:\n");
+    for (int i = 0; i < n_sys; i++) {
+        scanf("%d", &sys[i]);
+    }
+
+    printf("Enter user process count: ");
+    scanf("%d", &n_user);
+
+    int user[n_user];
+    printf("Enter burst times:\n");
+    for (int i = 0; i < n_user; i++) {
+        scanf("%d", &user[i]);
+    }
+
+    printf("\n--- System Processes ---\n");
+    fcfs(sys, n_sys);
+
+    printf("\n--- User Processes ---\n");
+    fcfs(user, n_user);
+
+    return 0;
+}
