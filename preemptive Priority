@@ -1,0 +1,61 @@
+#include<stdio.h>
+
+int main()
+{
+    int n,i,time=0,completed=0;
+    int at[10],bt[10],rt[10],pr[10];
+    int ct[10],wt[10],tat[10];
+    float s1=0,s2=0;
+
+    printf("Enter number of processes: ");
+    scanf("%d",&n);
+
+    for(i=0;i<n;i++)
+    {
+        printf("Enter AT BT Priority for P%d: ",i+1);
+        scanf("%d%d%d",&at[i],&bt[i],&pr[i]);
+        rt[i]=bt[i];
+    }
+
+    while(completed<n)
+    {
+        int highest=-1, min=999;
+        for(i=0;i<n;i++)
+        {
+            if(at[i]<=time && rt[i]>0 && pr[i]<min)
+            {
+                min=pr[i];
+                highest=i;
+            }
+        }
+
+        if(highest==-1)
+        {
+            time++;
+            continue;
+        }
+
+        rt[highest]--;
+        time++;
+
+        if(rt[highest]==0)
+        {
+            completed++;
+
+            ct[highest]=time;
+            tat[highest]=ct[highest]-at[highest];
+            wt[highest]=tat[highest]-bt[highest];
+
+            s1+=wt[highest];
+            s2+=tat[highest];
+        }
+
+    }
+    for(i=0;i<n;i++){
+        printf("\n P%d  at->%d  bt->%d  ct->%d  pr->%d  tat->%d  wt->%d",i+1,at[i],bt[i],ct[i],pr[i],tat[i],wt[i]);
+    }
+
+    printf("\nAverage Waiting Time = %.2f",s1/n);
+    printf("\nAverage Turnaround Time = %.2f",s2/n);
+    return 0;
+}
